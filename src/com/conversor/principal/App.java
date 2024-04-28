@@ -1,3 +1,4 @@
+package com.conversor.principal;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -5,12 +6,13 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Scanner;
 
+import com.conversor.operacion.Conversion;
 import com.google.gson.Gson;
 
 public class App {
     public static void main(String[] args) throws Exception {
         // variables y constructores
-        String apiKey = "Bearer ";
+        String apiKey = "Bearer 14ddeb33aae57ccc95b6c103";
         Scanner scanner = new Scanner(System.in);
         Gson gson = new Gson();
 
@@ -18,14 +20,19 @@ public class App {
         while (true) {
             System.out.println("""
                     ***************************************
-                    1) Realizar una conversion de moneda
+                    Bienvenido/a al conversor de monedas!
+                    
+                    Elija una opcion:
+
+                    1) Realizar una conversion
                     2) Salir
+                    
                     ***************************************
                     """);
-            int salida = scanner.nextInt();
-            if (salida==2) {
+            int opcion = scanner.nextInt();
+            if (opcion==2) {
                 break;
-            }else if (salida==1) {
+            }else if (opcion==1) {
 
                 System.out.print("Escriba el codigo de su moneda en uso actual: ");
                 String baseCurrency = scanner.next().toUpperCase();
@@ -46,7 +53,18 @@ public class App {
                 // HttpResponse
                 HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
 
-                System.out.println(response.body());
+                // Recibir la "response" .json y pasarle los datos al Record "Conversion"
+                Conversion conversion = gson.fromJson(response.body(), Conversion.class);
+
+                // Imprimir los resultados
+                System.out.printf("""
+                ********************************************************
+                Resultado de la conversion:
+                    
+                %.2f [%S] equivale a ==> %.2f [%S]
+                    
+                ********************************************************
+                """,amount,conversion.base_code(),conversion.conversion_result(),conversion.target_code());
 
             }else{
                 System.out.println("Esa opcion no es valida!");
