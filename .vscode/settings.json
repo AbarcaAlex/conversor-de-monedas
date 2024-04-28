@@ -3,5 +3,6 @@
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/gson-2.10.1.jar"
-    ]
+    ],
+    "cSpell.enabled": false
 }
