@@ -15,7 +15,7 @@ import com.google.gson.JsonSyntaxException;
 public class App {
     public static void main(String[] args) throws Exception {
         // variables y constructores
-        String apiKey = "Bearer ${ExchangeRate_API_KEY}";
+        String apiKey = "Bearer "+System.getenv().get("ExchangeRate_API_KEY");
         Scanner scanner = new Scanner(System.in);
         Gson gson = new Gson();
 
